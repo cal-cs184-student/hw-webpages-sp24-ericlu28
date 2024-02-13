@@ -2,6 +2,56 @@
 	<head>
 	</head>
 	<body>
-		Homework 1 index.html here
+		<h1>Homework 1 Writeup</h1>
+		<h2>Task 1: </h2>
+		<h3>Walk through how you rasterize triangles in your own words.</h3>
+			<p>
+			We are rasterizing triangles by sampling pixel centers that are contained inside of the edges of the triangle, which we check with a helper function, <b>contained_in_triangle</b>. 
+			Then, we iterate over every single pixel (double for loop for each x in the width and y in the height) and checking this condition.
+			</p>
+		<h3>Explain how your algorithm is no worse than one that checks each sample within the bounding box of the triangle.</h3>
+			<p>
+				
+			</p>
+		<h3>Show a png screenshot of basic/test4.svg with the default viewing parameters and with the pixel inspector centered on an interesting part of the scene.</h3>
+			<p>
+
+			</p>
+		<h2>Task 2: </h2>
+		<h3>Walk through your supersampling algorithm and data structures. Why is supersampling useful? What modifications did you 
+			make to the rasterization pipeline in the process? Explain how you used supersampling to antialias your triangles.</h3>
+			<p>
+
+			</p>
+		<h3>Show png screenshots of basic/test4.svg with the default viewing parameters and sample rates 1, 4, and 16 to compare them 
+			side-by-side. Position the pixel inspector over an area that showcases the effect dramatically; for example, a very skinny triangle corner. 
+			Explain why these results are observed.</h3>
+			<p>
+
+			</p>
+		<h2>Task 3: </h2>
+			<h3>
+				Create an updated version of svg/transforms/robot.svg with cubeman doing something more interesting, like waving 
+				or running. Feel free to change his colors or proportions to suit your creativity. Save your svg file as my_robot.svg 
+				in your docs/ directory and show a png screenshot of your rendered drawing in your write-up. 
+				Explain what you were trying to do with cubeman in words.
+			</h3>
+		<h2>Task 4: </h2>
+			<h3>
+				Explain barycentric coordinates in your own words and use an image to aid you in your explanation. One idea is to use 
+				a svg file that plots a single triangle with one red, one green, and one blue vertex, which should produce a smoothly 
+				blended color triangle.
+			</h3>
+			<p>
+
+			</p>
+			<h3>Show a png screenshot of svg/basic/test7.svg with default viewing parameters and sample rate 1. If you make any 
+				additional images with color gradients, include them.
+			</h3>
+			<p>
+
+			</p>
+		<h2>Task 5: </h2>
+
 	</body>
 </html>

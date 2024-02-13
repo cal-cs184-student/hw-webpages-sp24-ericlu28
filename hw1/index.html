@@ -1,21 +1,25 @@
 <html>
 	<head>
+		Homework 1 Writeup
 	</head>
 	<body>
+		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw1/index.html">Webpage Link</a>
 		<h1>Homework 1 Writeup</h1>
 		<h2>Task 1: </h2>
 		<h3>Walk through how you rasterize triangles in your own words.</h3>
 			<p>
 			We are rasterizing triangles by sampling pixel centers that are contained inside of the edges of the triangle, which we check with a helper function, <b>contained_in_triangle</b>. 
-			Then, we iterate over every single pixel (double for loop for each x in the width and y in the height) and checking this condition.
+			Then, we iterate over every single pixel (double for loop for each x in the width and y in the height) and checking this condition. If the pixel center is contained within the triangle, 
+			then we sample that color and include it into our buffer. Otherwise, we move on.
 			</p>
 		<h3>Explain how your algorithm is no worse than one that checks each sample within the bounding box of the triangle.</h3>
 			<p>
-				
+				This algorithm is no worse than one that checks each sample within the bounding box of the triangle because we are iterating over each pixel within the bounding box, and 
+				checking if this pixel is within the triangle. We are iterating over width * height number of pixels, which is no less than each sample within the bounding box.
 			</p>
 		<h3>Show a png screenshot of basic/test4.svg with the default viewing parameters and with the pixel inspector centered on an interesting part of the scene.</h3>
 			<p>
-
+				<img src="./task1-image.png" alt="Task 1 screenshot" width="500" height="600">
 			</p>
 		<h2>Task 2: </h2>
 		<h3>Walk through your supersampling algorithm and data structures. Why is supersampling useful? What modifications did you 

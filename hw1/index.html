@@ -68,8 +68,10 @@
 				Explain what you were trying to do with cubeman in words.
 			</h3>
 				<p>
-					<img src="./task3-update" alt="Task 3 screenshot" width="800" height="600">
-					We were trying to make cubeman wave with both hands, as well as changed the head of cubeman to be black.
+					<img src="./task3-update.png" alt="Task 3 screenshot" width="800" height="600">
+				</p>
+				<p>
+					We tried making the cubeman wave with both hands, as well as changed the head of cubeman to be black.
 				</p>
 		<h2>Task 4: </h2>
 			<h3>
@@ -84,13 +86,13 @@
 				are colored based on their location in relation to the 3 vertices. Points closer to the left are more blue, points closer to the 
 				top right are more red, and points closer to the bottom right are more green. Points in between are a mix of these colors, with
 				heavier weight to points closer to the corresonding vertex color.
-				<img src="./task4-triangle.png" alt="Task 4 screenshot" width="800" height="600">
+				<img src="./task4-triangle.png" alt="Task 4 screenshot triangle" width="800" height="600">
 			</p>
 			<h3>Show a png screenshot of svg/basic/test7.svg with default viewing parameters and sample rate 1. If you make any 
 				additional images with color gradients, include them.
 			</h3>
 			<p>
-				<img src="./task4-circle.png" alt="Task 4 screenshot" width="800" height="600">
+				<img src="./task4-circle.png" alt="Task 4 screenshot circle" width="800" height="600">
 			</p>
 			<p>
 
@@ -101,7 +103,10 @@
 				Briefly discuss the two different pixel sampling methods, nearest and bilinear.
 			</h3>
 			<p>
-				Pixel sampling is figuring out what color a pixel should be in an image.
+				Pixel sampling is figuring out what color a pixel should be in an image based on looking at its location. 
+				We did it in two ways to implement texture mapping: nearest sampling and bilinear sampling. In nearest sampling, 
+				the nearest pixel was directly sampled to assign color for the pixel location. In bilinear sampling, we interpolate between 
+				the four nearest pixels where the interpolation is based on the distances between the target pixel and the 4 neighboring pixels. 
 			</p>
 			<h3>
 				Check out the svg files in the svg/texmap/ directory. Use the pixel inspector to find a good example of where 
@@ -110,13 +115,59 @@
 				and bilinear sampling at 16 samples per pixel.
 			</h3>
 			<p>
-
+				Bilinear sampling often outperforms nearest sampling in scenarios where we want smooth gradient transitions. I looked
+				for a location where there were multiple colors adjacent to one another, for example from blue to light blue to dark 
+				green to green. These are the pictures:
+			</p>
+			<p>
+				Nearest sampling (1 sample per pixel)
+				<img src="./task5-n1.png" alt="Task 5 screenshot 1" width="800" height="600">
+			</p>
+			<p>
+				Nearest sampling (16 samples per pixel)
+				<img src="./task5-n16.png" alt="Task 5 screenshot 2" width="800" height="600">
+			</p>
+			<p>
+				Bilinear sampling (1 sample per pixel)
+				<img src="./task5-b1.png" alt="Task 5 screenshot 3" width="800" height="600">
+			</p>
+			<p>
+				Bilinear sampling (16 samples per pixel)
+				<img src="./task5-b16.png" alt="Task 5 screenshot 4" width="800" height="600">
 			</p>
 			<h3>
 				Comment on the relative differences. Discuss when there will be a large difference between the two methods and why.
 			</h3>
 			<p>
+				Bilinear sampling often outperforms nearest sampling in scenarios where we want smooth gradient transitions. 
+				We see the largest difference between the two methods in zooming in on locations where 1 pixel is a drastically different
+				color from the surrounding pixels. For example, in the nearest sampling rate 1 per pixel, there is locations with 
+				a single black pixel among blue and a single yellow pixel among green. We won't see this in bilinear sampling rate 1 per pixel
+				, where that pixel is averaged (more blue or more green looking). Rather than being a black pixel among blue pixels, it's 
+				a lighter grey pixel that has weight from the blue contributing to it. 
+				In general, the bilinear sampling has smoother color gradient transitions than nearest pixel sampling. 
+			</p>
+		<h2>Task 6: </h2>
+			<h3>
+				Explain level sampling in your own words and describe how you implemented it for texture mapping.
+			</h3>
+			<p>
 
+			</p>
+			<h3>
+				You can now adjust your sampling technique by selecting pixel sampling, level sampling, or the number of samples 
+				per pixel. Describe the tradeoffs between speed, memory usage, and antialiasing power between the three various 
+				techniques.
+			</h3>
+			<p>
+
+			</p>
+			<h3>
+				Using a png file you find yourself, show us four versions of the image, using the combinations of L_ZERO and P_NEAREST, 
+				L_ZERO and P_LINEAR, L_NEAREST and P_NEAREST, as well as L_NEAREST and P_LINEAR.
+			</h3>
+			<p>
+				
 			</p>
 	</body>
 </html>

@@ -5,6 +5,10 @@
 	<body>
 		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw1/index.html">Webpage Link</a>
 		<h1>Homework 1 Writeup</h1>
+		<h2>Overview: </h2>
+			<p>
+
+			</p>
 		<h2>Task 1: </h2>
 		<h3>Walk through how you rasterize triangles in your own words.</h3>
 			<p>
@@ -19,19 +23,42 @@
 			</p>
 		<h3>Show a png screenshot of basic/test4.svg with the default viewing parameters and with the pixel inspector centered on an interesting part of the scene.</h3>
 			<p>
-				<img src="./task1-image.png" alt="Task 1 screenshot" width="500" height="600">
+				<img src="./task1-image.png" alt="Task 1 screenshot" width="800" height="600">
 			</p>
 		<h2>Task 2: </h2>
 		<h3>Walk through your supersampling algorithm and data structures. Why is supersampling useful? What modifications did you 
 			make to the rasterization pipeline in the process? Explain how you used supersampling to antialias your triangles.</h3>
 			<p>
-
+				<p>
+					In the supersampling algorithm, our frame gets scaled by up sqrt(sample rate) in both dimensions. As a result,
+					we upscale the vertices of the triangles passed in. With these new larger triangles, we perform the same line test as in 
+					the previous part. When we resolve the frame buffer, we iterate throuhg the sample buffer in sqrt(sample rate) * sqrt(sample rate)
+					squares and collapse each into a single pixel: we do this by collapsing by averaging the color values across the square.
+				</p>
+				<p>
+					Supersampling is useful because it allows you to sample at a higher resoltuion and average the values in your buffer to
+					encapsulate more of what's going on within a single pixel. This creates a bluffering effect that reduces the jagged
+					edges that we get because of aliasing.
+				</p>
+				<p>
+					In the rasterization pipeline, we upscale our triangles by the square root of the samle rate. Then, when resolving to 
+					the frame buffer, we average each sub grid so that the resolution matches our device specification.
+				</p>
 			</p>
 		<h3>Show png screenshots of basic/test4.svg with the default viewing parameters and sample rates 1, 4, and 16 to compare them 
 			side-by-side. Position the pixel inspector over an area that showcases the effect dramatically; for example, a very skinny triangle corner. 
 			Explain why these results are observed.</h3>
 			<p>
+				<img src="./task2-1.png" alt="Task 2-1 screenshot" width="800" height="600">
+				<img src="./task2-2.png" alt="Task 2-4 screenshot" width="800" height="600">
+				<img src="./task2-4.png" alt="Task 2-16 screenshot" width="800" height="600">
 
+				We are seeing these results because of the change in sample rate. 
+				For the low sample rate(1 sample per pixel), the color of the sample is determined by the color of one pixel.
+				This is why we see the most dramatic color changes from pink to white.
+				For the medium sample rate (4 samples per pixel), we are taking the average of the variations in color for that pixel, which results
+				in a smoother image transition from pink to lighter pink to white.
+				The highest sample rate (16 samples per pixel) has the most refined image and averaged colors, leading to the most reduced aliasing.
 			</p>
 		<h2>Task 3: </h2>
 			<h3>
@@ -40,6 +67,10 @@
 				in your docs/ directory and show a png screenshot of your rendered drawing in your write-up. 
 				Explain what you were trying to do with cubeman in words.
 			</h3>
+				<p>
+					<img src="./task3-update" alt="Task 3 screenshot" width="800" height="600">
+					We were trying to make cubeman wave with both hands, as well as changed the head of cubeman to be black.
+				</p>
 		<h2>Task 4: </h2>
 			<h3>
 				Explain barycentric coordinates in your own words and use an image to aid you in your explanation. One idea is to use 
@@ -47,15 +78,45 @@
 				blended color triangle.
 			</h3>
 			<p>
-
+				Barycentric coordinates give us a way to position a point's location within a triangle in relation to the triangle's 
+				vertices. Each barycentric coordinate represents one vertex of a triangle, with the numbers weighted by the proportion of
+				each vertex that is contributing to the triangle. As we can see in the picture below, different points in the triangle 
+				are colored based on their location in relation to the 3 vertices. Points closer to the left are more blue, points closer to the 
+				top right are more red, and points closer to the bottom right are more green. Points in between are a mix of these colors, with
+				heavier weight to points closer to the corresonding vertex color.
+				<img src="./task4-triangle.png" alt="Task 4 screenshot" width="800" height="600">
 			</p>
 			<h3>Show a png screenshot of svg/basic/test7.svg with default viewing parameters and sample rate 1. If you make any 
 				additional images with color gradients, include them.
 			</h3>
 			<p>
+				<img src="./task4-circle.png" alt="Task 4 screenshot" width="800" height="600">
+			</p>
+			<p>
 
 			</p>
 		<h2>Task 5: </h2>
+			<h3>
+				Explain pixel sampling in your own words and describe how you implemented it to perform texture mapping. 
+				Briefly discuss the two different pixel sampling methods, nearest and bilinear.
+			</h3>
+			<p>
+				Pixel sampling is figuring out what color a pixel should be in an image.
+			</p>
+			<h3>
+				Check out the svg files in the svg/texmap/ directory. Use the pixel inspector to find a good example of where 
+				bilinear sampling clearly defeats nearest sampling. Show and compare four png screenshots using nearest sampling 
+				at 1 sample per pixel, nearest sampling at 16 samples per pixel, bilinear sampling at 1 sample per pixel, 
+				and bilinear sampling at 16 samples per pixel.
+			</h3>
+			<p>
 
+			</p>
+			<h3>
+				Comment on the relative differences. Discuss when there will be a large difference between the two methods and why.
+			</h3>
+			<p>
+
+			</p>
 	</body>
 </html>

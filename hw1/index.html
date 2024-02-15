@@ -152,7 +152,17 @@
 				Explain level sampling in your own words and describe how you implemented it for texture mapping.
 			</h3>
 			<p>
-
+				Level sampling helps us determine the color that should be rendered at a specific location by sampling locations in a 
+				grid pattern, or mipmap. A higher level refers to a lower resolution in the texture space, leading to a more sparse mipmap; 
+				A lower level refers to a higher resolution in the texture space, leading to a more dense mipmap. 
+				In order to implement "level sampling" texture mapping, we reused our logic from "pixel sampling" for texture mapping,
+				where we defaulted to a Vector2D(0, 0), sampling from the mipmap at level 0. First, we modified the SampleParameters to change
+				p_dx_uv and p_dy_uv from (0, 0) to the UV barycentric coordinates of u and v. Then, we filled in the Texture::get_level(sp) function
+				to calculate the correct level value based on the formula in Lecture 5 slides where we calculate the maximum distance between a point
+				and its 2 adjacent neighbors. Finally, we created two helper functions to cover the case where both pixel sampling and level sampling
+				were linear (trilinear sampling), where the logic was similar to bilinear sampling, but we took a weighted average of the adjacent neighboring
+				colors; and the case where pixel sampling was nearest and level sampling was linear, where we took the weighted average of nearest 
+				sampling the adjacent neighbors. 
 			</p>
 			<h3>
 				You can now adjust your sampling technique by selecting pixel sampling, level sampling, or the number of samples 
@@ -160,6 +170,17 @@
 				techniques.
 			</h3>
 			<p>
+				Modifying level sampling: if we increase the level we sample from, the rendering speed is slower because we have to 
+				sample from two different levels and interpolate them together. Modifying level sampling alone doesn't greatly affect 
+				memory usage. As we go from level sampling L_ZERO to L_LINEAR, we have more antialiasing power.
+				Modifying pixel sampling: bilinear pixel sampling is slightly slower than nearest pixel sampling because we have to 
+				search the 4 nearest neigbors, rather than just the single nearest one. Nearest pixel sampling has straightfoward memory
+				usage, as each pixel contributes to 1 color value in the final image; bilinear pixel sampling is slightly more complicated 
+				(not a huge difference) because interpolation requires multiple pixels, but this can be implemented with temporary storage
+				for intermediate results during interpolation, so we are not using significantly more memory. Finally, bilinear pixel
+				sampling has higher antialiasing power and smoothing transition power, as its interpolating color values from 
+				adjacent pixels, whereas nearest pixel sampling has low antialiasing power, so it tends to produce more noticeable 
+				aliasing artifacts.
 
 			</p>
 			<h3>
@@ -167,7 +188,10 @@
 				L_ZERO and P_LINEAR, L_NEAREST and P_NEAREST, as well as L_NEAREST and P_LINEAR.
 			</h3>
 			<p>
-				
+				L_ZERO and P_NEAREST: <img src="./pikachu1.png" alt="Task 6 screenshot 1" width="400" height="300">
+				L_ZERO and P_LINEAR: <img src="./pikachu2.png" alt="Task 6 screenshot 2" width="400" height="300">
+				L_NEAREST and P_NEAREST: <img src="./pikachu3.png" alt="Task 6 screenshot 3" width="400" height="300">
+				L_NEAREST and P_LINEAR: <img src="./pikachu4.png" alt="Task 6 screenshot 4" width="400" height="300">
 			</p>
 	</body>
 </html>

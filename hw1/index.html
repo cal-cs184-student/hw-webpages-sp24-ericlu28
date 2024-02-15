@@ -7,6 +7,27 @@
 		<h1>Homework 1 Writeup</h1>
 		<h2>Overview: </h2>
 			<p>
+				In this homework, we implemented a rasterization pipeline through gradual steps and with the
+				capability of supporting many different For example, given a triangle based
+				on its vertices, we are able to fill in a correct color. We are also able to support antialiasing methods like supersampling
+				to relieve image artifacts like jaggedness on diagonals. We also supported sampling from texture maps and implemented different
+				sampling methods at the pixel level like nearest and bilinear sampling, as well as added support for varying sampling rates. 
+				We also implemented level sampling with mipmaps in order for texture mapping.
+				<br>
+				Along the way, we were able to see all of these implemented features applied to a set of varying images. Some of these features
+				made significant changes to images where adjacent pixels had varying colors (like a colorwheel or colorful parrot), or when 
+				surrounding edges were more jagged (like edges of a continent on a map). We were also able to create our own 
+				SVG files and apply these features to custom images.
+				<br>
+				In the end, we strengthened our skills in understanding how computers render images, and the pros and drawbacks
+				of different techniques on rendering speed, memory usage, and antialiasing; as a whole, we gained better intuition
+				into why techniques taught in lecture, like supersampling and interpolation across triangles, are useful in computer
+				graphics.
+				<br>
+				We thought that interpolating colors in triangles using barycentric coordinates in order to reduce high contrast 
+				colors was super insightful, and we were able to see the effects on a custom-made triangle, where the vertices where 
+				red, green, and blue. Overall, being able to apply the formulas taught in lecture into our own rasterization pipeline
+				made for a very interesting project.
 
 			</p>
 		<h2>Task 1: </h2>
@@ -190,6 +211,7 @@
 			<p>
 				L_ZERO and P_NEAREST: <img src="./pikachu1.png" alt="Task 6 screenshot 1" width="400" height="300">
 				L_ZERO and P_LINEAR: <img src="./pikachu2.png" alt="Task 6 screenshot 2" width="400" height="300">
+				<br>
 				L_NEAREST and P_NEAREST: <img src="./pikachu3.png" alt="Task 6 screenshot 3" width="400" height="300">
 				L_NEAREST and P_LINEAR: <img src="./pikachu4.png" alt="Task 6 screenshot 4" width="400" height="300">
 			</p>

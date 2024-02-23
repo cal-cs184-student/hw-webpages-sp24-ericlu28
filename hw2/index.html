@@ -1,7 +1,35 @@
 <html>
 	<head>
+		Homework 2 Writeup
 	</head>
 	<body>
-		Homework 2 index.html here
+		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw2/index.html">Webpage Link</a>
+		<h1>Homework 2 Writeup</h1>
+			<h2>Overview: </h2>
+				<p>
+
+				</p>
+			<h2>Section 1 Part 1:</h2>
+				<h3>Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.</h3>
+					<p>
+						De Casteljau's algorithm is a recursive algorithm meant to evaluate Bezier curves. It takes as input an initial
+						set of control points and a parameter t that decides how to interpolate along the control points.  In the first 
+						iteration, the algorithm calculates intermediate points along the edges between the control points (distance
+						based on t), then connects these 2 intermediate points. We use the newly created polygon as the next points
+						to recurse on. This process repeats until the algorithm has reached a single point or if the curve is smooth.
+					</p>
+			<h2>Section 1 Part 2:</h2>
+				<h3>Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to 
+					evaluate Bezier surfaces.</h3>
+					<p>
+						The de Casteljau algorithm extends to Bezier surfaces very easily because we just need to deal with an extra
+						dimension (Bezier surfaces are defined by 2D control points array). Given an nxn grid of control points, we 
+						first ran the de Casteljau algorithm row-wise, in order to create a 1D N-length array of control points Pi.
+						Finally, we ran the de Casteljau algorithm one more time (visualized vertically) on these Pi values to 
+						evaluate the Bezier surface.
+					</p>
+					<p>
+						<img src="./teapot.png" alt="Section 1 Part 2 screenshot" width="800" height="600">
+					</p>
 	</body>
 </html>

@@ -49,12 +49,21 @@
 			<h2>Section 2 Part 3:</h2>
 				<h3>Briefly explain how you implemented the area-weighted vertex normals.</h3>
 					<p>
-						TODO:
+						In order to implement the area-weighted vertex normals, we first referenced Lecture 6 slides on shading triangle
+						meshes and the Blinn-Phong Reflection model. We knew that for each vertex, the shade would be an area-weighted vertex
+						normal of the surrounding faces. Thus, we also referenced the Half-edge data structure from Discussion 4, specifically
+						the exercise of traversing the mesh using the half edges. For each surrounding face of the vertex, we stored its area
+						as well as its normal vector. Then, we calculated the area-weighted normals, and averaged those to return the final
+						unit normal for that vertex.
 					</p>
 				<h3>Show screenshots of dae/teapot.dae (not .bez) comparing teapot shading with and without vertex normals. 
 					Use Q to toggle default flat shading and Phong shading.</h3>
 					<p>
-						TODO:
+						With vertex normals:
+						<img src="./teapot part 3 phong shading.png" alt="Section 2 Part 3 screenshot" width="800" height="600">
+
+						Without vertex normals:
+						<img src="./teapot part 3 flat shading.png shading.png" alt="Section 2 Part 3 screenshot" width="800" height="600">
 					</p>
 			<h2>Section 2 Part 4:</h2>
 				<h3>Briefly explain how you implemented the edge flip operation and describe any interesting implementation /

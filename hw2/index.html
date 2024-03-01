@@ -7,7 +7,7 @@
 		<h1>Homework 2 Writeup</h1>
 			<h2>Overview: </h2>
 				<p>
-
+					TODO:
 				</p>
 			<h2>Section 1 Part 1:</h2>
 				<h3>Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.</h3>
@@ -20,18 +20,21 @@
 					</p>
 				<h3>Take a look at the provided .bzc files and create your own Bezier curve with 6 control points of your choosing. 
 					Use this Bezier curve for your screenshots below.</h3>
-					<p>
-						TODO:
-					</p>
 				<h3>Show screenshots of each step / level of the evaluation from the original control points down to the final evaluated
 					 point. Press E to step through. Toggle C to show the completed Bezier curve as well.</h3>
 					 <p>
-						TODO:
+						<img src="./bez1.png" alt="Bez1" width="800" height="600">
+						<img src="./bez2.png" alt="Bez2" width="800" height="600">
+						<img src="./bez3.png" alt="Bez3" width="800" height="600">
+						<img src="./bez4.png" alt="Bez4" width="800" height="600">
+						<img src="./bez5.png" alt="Bez5" width="800" height="600">
+						<img src="./bez6.png" alt="Bez6" width="800" height="600">
 					 </p>
 				<h3>Show a screenshot of a slightly different Bezier curve by moving the original control points around and 
 					modifying the parameter t via mouse scrolling.</h3>
 					<p>
-						TODO:
+						<img src="./bez7.png" alt="Bez7" width="800" height="600">
+						<img src="./bez8.png" alt="Bez8" width="800" height="600">
 					</p>
 			<h2>Section 1 Part 2:</h2>
 				<h3>Briefly explain how de Casteljau algorithm extends to Bezier surfaces and how you implemented it in order to 
@@ -61,7 +64,7 @@
 					<p>
 						With vertex normals:
 						<img src="./teapot part 3 phong shading.png" alt="Section 2 Part 3 screenshot" width="800" height="600">
-
+						<br>
 						Without vertex normals:
 						<img src="./teapot part 3 flat shading.png shading.png" alt="Section 2 Part 3 screenshot" width="800" height="600">
 					</p>
@@ -69,13 +72,19 @@
 				<h3>Briefly explain how you implemented the edge flip operation and describe any interesting implementation /
 					 debugging tricks you have used.</h3>
 					 <p>
-						TODO:
+						In order to implement the edge flip operation, the main point of logic was ensuring that all of the mesh
+						element pointers remained correct. We first set temporary variables storing the old center edges, 
+						4 half edges, 4 vertices, and 2 faces. Then, we reassigned the realigned vertices, edges, faces, and Finally
+						the half edges using the SetNeighbors function provided. 
+						While we don't believe we had any unique or particularly interesting implementation tricks, drawing out 
+						visuals of the before and after flipping diagrams, and physical pointers to each location was extremely
+						helpful in the implementation.
 					 </p>
 				<h3>Show screenshots of the teapot before and after some edge flips.</h3>
 					 <p>
 						Before edge flip:
 						<img src="./teapot regular.png" alt="Section 2 Part 4 screenshot 1" width="800" height="600">
-
+						<br>
 						After edge flip:
 						<img src="./teapot flip.png" alt="Section 2 Part 4 screenshot 2" width="800" height="600">
 					 </p>
@@ -88,13 +97,21 @@
 				<h3>Briefly explain how you implemented the edge split operation and describe any interesting implementation / 
 					debugging tricks you have used.</h3>
 					<p>
-						TODO:
+						Similarily to implementing edge flipping, edge splitting was also all about keeping track of 
+						pointers and mesh elements. First, we extracted all of the mesh info into temporary variables, 
+						such as creating HalfedgeIter center = e0->halfedge() and HalfedgeIter centerTwin = center->twin().
+						Then, we created the new mesh elements, which were the new edges and new vertex with position calculated
+						from the average of the vertical vertices (B and C). Then, we went about creating the new faces and half
+						edge elements, and then assigning the correct pointers in vertices, half edges to edges, and half edges
+						to faces. Finally, we updated the half edges using the setNeighbors function provided, going about 
+						a similar process of diligently following 2 visuals of the before and after mesh elements.
+
 					</p>
 				<h3>Show screenshots of a mesh before and after some edge splits.</h3>
 					<p>
 						Before edge split:
 						<img src="./teapot regular.png" alt="Section 2 Part 5 screenshot 1" width="800" height="600">
-
+						<br>
 						After edge split:
 						<img src="./teapot split.png" alt="Section 2 Part 5 screenshot 2" width="800" height="600">
 					</p>
@@ -102,7 +119,7 @@
 					<p>
 						Before edge splits and flips:
 						<img src="./teapot regular.png" alt="Section 2 Part 5 screenshot 3" width="800" height="600">
-
+						<br>
 						Afted edge splits and flips:
 						<img src="./teapot splits and flips.png" alt="Section 2 Part 5 screenshot 3" width="800" height="600">
 					</p>
@@ -114,13 +131,24 @@
 				<h3>If you have implemented support for boundary edges, show screenshots of your implementation properly handling split operations on 
 					boundary edges.</h3>
 					<p>
-						TODO:
+						N/A
 					</p>
 			<h2>Section 2 Part 6:</h2>
 				<h3>Briefly explain how you implemented the loop subdivision and describe any interesting implementation / 
 					debugging tricks you have used.</h3>
 					<p>
-						TODO:
+						Our approach mostly followed the ordered steps given in the spec. First, we looped through every single
+						vertex in the mesh and calculated the updated position of it based on the equation using n (vertex degree),
+						u (constant based on n), and original position of the vertex. We stored that new position in the 
+						newPosition field for the vertex, and set the flag to isNew == false. Then, we split every edge. 
+						And, we iterated over every edge in
+						the mesh, storing that new position using the equation: 3/8 * (A + B) + 1/8 * (C + D). 
+						 This required using the HalfEdge interface provided. 
+						 Next, we iterated over each edge again: If that edge connected an old vertex and a new vertex in the mesh, 
+						 then we would flip it. (1 blue and 1 brown edge example in the lecture slides).
+						 Finally, we copied those new positions for vertices into the final Vertex::position.
+						 While there weren't any unique debugging tricks we tried, we utilized help from staff and lecture slides
+						 each step of the way, trying to visualize the problem using the provided diagrams.
 					</p>
 				<h3>Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. 
 					What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?</h3>

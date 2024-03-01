@@ -153,19 +153,44 @@
 				<h3>Take some notes, as well as some screenshots, of your observations on how meshes behave after loop subdivision. 
 					What happens to sharp corners and edges? Can you reduce this effect by pre-splitting some edges?</h3>
 					<p>
-						TODO:
+						Sharp corners and edges become more smooth and rounded after loop subdivision. Also, the length of edges
+						becomes reduced as we are inserting new vertices in the midpoint of edges. In the overall shape, sharper corners
+						and edges become more smoothed out the more subdivides we do. However, if you preprocess the cube/shape 
+						by splitting and flipping an edge to create an obvious indent in the shape, that indent remains preserved
+						over subdivides. By pre-splitting edges, we can somewhat guide the sharpness of the subdivided shape.
+						<br>
+						<img src="./cube1.png" alt="cube1" width="800" height="600">
+						<img src="./cube2.png" alt="cube2" width="800" height="600">
+						<img src="./cube3.png" alt="cube3" width="800" height="600">
+						<img src="./cube4.png" alt="cube4" width="800" height="600">
 					</p>
 				<h3>Load dae/cube.dae. Perform several iterations of loop subdivision on the cube. Notice that the cube 
 					becomes slightly asymmetric after repeated subdivisions. Can you pre-process the cube with edge flips
 					 and splits so that the cube subdivides symmetrically? Document these effects and explain why they occur. 
 					 Also explain how your pre-processing helps alleviate the effects.</h3>
 					<p>
-						TODO:
+						Yes, you can pre-process the cube with edge flips and splits so that the cube subdivides symmetrically.
+						In our case, we split every single face, so that there's an "X" on every single face of the cube before
+						loop subdividing. The asymmetry can occur because in the subdivision process, the weights used are not always
+						perfectly symmetric. When we use the equation <b>(1 - n * u) * original_position + u * original_neighbor_position_sum</b>
+						to update the position of an old vertex, the constants for n and u change based on the vertex degree. We noticed
+						that the same vertex for multiple iterations changed from degree 3->6->5, signifying no symmetry. Thus, When
+						we determine the position of a new vertex based on the neighboring vertices, the weights may not be the same, so we 
+						get asymmetric stretching in different directions. 
+
+						Pre-processing helps alleviate these effects because we can ensure that each vertex is connected along the same
+						number of edges to start (essentialy making an X on each face), so that the future weighting is distributed the same, 
+						and we get symmetric subdivision in future iterations.
+						<br>
+						<img src="./sym1.png" alt="sym1" width="800" height="600">
+						<img src="./sym2.png" alt="sym2" width="800" height="600">
+						<img src="./sym3.png" alt="sym3" width="800" height="600">
+						<img src="./sym4.png" alt="sym4" width="800" height="600">
 					</p>
 				</h3>If you have implemented any extra credit extensions, explain what you did and document how they work with 
 				screenshots.</h3>
 					<p>
-						TODO:
+						N/A
 					</p>
 	</body>
 </html>

@@ -7,7 +7,42 @@
 		<h1>Homework 2 Writeup</h1>
 			<h2>Overview: </h2>
 				<p>
-					TODO:
+					At a high level, the goal of this assignemnt was to gain hands-on experience with the geometric modeling and meshes
+					that we learned about in lecture. We started off learning how to create Bezier curves based on control points,
+					which allow us to smoothly model curves, which is something that is present in fonts, for example. We started off with
+					control points in the 1D space, but moved on to Bezier surfaces, which are essentially nxn matrices of control points,
+					rather than a single 1xn vector of control points. This goes to show how scalable the techniques of Bezier curves
+					for modeling truly are, as the same philosophy could be scaled to much higher dimensions.
+					<br>
+					In the next part, we utilized the Half-edge data structure, which is the underlying foundation for modeling
+					surfaces using triangle meshes, instead of parametric surfaces. The advantage of these triangles is that they
+					require much less memory because we only need to store information about the half-edges, which explicitly
+					store the connectivity information about the connected elements (vertices, edges, and faces).
+					Using the half-edge data structure as a base, we implemented Phong shading in order to better shade a smooth
+					surface using area normals (this required a lot of cross products, linear algebra, and fun math that
+					we weren't expecting!). We also implemented edge flipping and splitting in order to handle loop subdivision
+					for mesh upsampling. 
+					<br>
+					Loop subdivision for mesh upsampling was definitely the most time-consuming process, however, we made great
+					use of visualizations and pen-and-paper to set everything in stone. <b>We debugged an issue where upsampling
+						the cube created very pointy edges, realizing that it was just because we didn't cast 1/n to a float in the 
+						vertex positioning equation. RIP 6 hours
+					</b>
+
+					Of course, there are other ways to model triangle meshes other than the half edge data structure (for example
+					with vertices of points), as well as other ways to model parametric surfaces. This goes to show just how scalable/versatile
+					the applications of graphics algorithms are.
+					<br>
+					While the debugging was less print statements to see where certain programs were segfaulting, as compared to 
+					HW1, we spent more time visualizing the problem in order to effectively tackle it before doing any coding. 
+					For example for Task 4 and 5 (flipping and splitting edges), rather than immediately starting with a crude
+					coded solution, we drew the before-and-after triangles, and labeled each of the corresponding half edge mesh elements
+					in order to see what features needed to be translated/created/moved/removed. This made it so that we could follow an
+					algorithmic process to delegate vertex moves, new half edge assignments, etc. effectively. This will be a good process
+					to follow for future homeworks.
+					<br>
+					Overall, we really enjoyed doing this project, and the pictures that we got to render and preprocess
+					turned out super cool!
 				</p>
 			<h2>Section 1 Part 1:</h2>
 				<h3>Briefly explain de Casteljau's algorithm and how you implemented it in order to evaluate Bezier curves.</h3>

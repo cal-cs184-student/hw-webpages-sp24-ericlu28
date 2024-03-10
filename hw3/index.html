@@ -1,7 +1,41 @@
 <html>
 	<head>
+		Homework 3 Writeup
 	</head>
 	<body>
-		Homework 3 index.html here
+		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw3/index.html">Webpage Link</a>
+		<h1>Homework 3 Writeup</h1>
+			<h2>Project Overview: </h2>
+				<h3>approach and implementation for each of the parts, as well as problems encountered and how to solve</h3>
+			<h2>Part 1: </h2>
+				<h3>Walk through the ray generation and primitive intersection parts of the rendering pipeline.</h3>
+					<p>
+						image coords -> ray in world space (generate_ray) -> update pixel in SampleBuffer w/ integral of radiance over pixel
+					</p>
+				<h3>Explain the triangle intersection algorithm you implemented in your own words.</h3>
+				<h3>Show images with normal shading for a few small .dae files.</h3>
+			<h2> Part 2: </h2>
+				<h3>Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.</h3>
+					<p>
+						Our BVH construction algorithm started by creating a single BVH node (the root node). THen, we used recursion to build up the tree.
+						The recursive case was if the count of vector of Primitives was less than the max_leaf_size, then we would set the start and the end of
+						a BVHnode to that vector's start and end, and return the node. In the recursive case, we first find the best axis to split on by
+						a simple for loop that increments 3 counters (aboveX, aboveY, and aboveZ) for a Primitive if its x, y, and z centroid coordinates are above 
+						the bounding box's centroid coordinates. Then, we take each counter, and calculate a temp value: aboveX - (total_count - aboveX) for each axis, in order to see
+						which axis is the most "balanced" (most balanced for us is the temp value closest to 0). Then, we create 2 new vector of Primitive pointers left and right.
+						For the selected axis, we iterate over the entire inputted vector of Primitives, and assign each Primitive pointer to left if its centroid is less than
+						the bounding box's center for that axis we chose, and right if its centroied is larger than the bounding box's center for the axis we chose.
+						The heuristic we chose for picking the spliting point was the axis with the most "even split", as we wanted the left and right split to give us the 
+						most information gain.
+						<br>
+						One thing we noticed was that we were initially segfaulting, and that was because we didn't handle the case where one of the children nodes remains empty
+						(left is empty || right is empty). To alleviate this issue of infinite recursion, we checked if either vector is empty, and moved a Primitive from the "full"
+						side to the empty.
+					</p>
+				<h3>Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.</h3>
+					<p>
+						
+					</p>
+			<h2>Collaboration Report: </h2>
 	</body>
 </html>

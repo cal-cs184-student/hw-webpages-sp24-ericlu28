@@ -7,13 +7,56 @@
 		<h1>Homework 3 Writeup</h1>
 			<h2>Project Overview: </h2>
 				<h3>approach and implementation for each of the parts, as well as problems encountered and how to solve</h3>
+				<h3>Part 1: doing matrix multiplication and linear algebra to reverse engineer the transform matrix</h3>
+				<h3>Part 2: Segfaulting initially</h3>
+				<h3>Part 3, task 3: Running into issues where the direct lighting with uniform hemisphere sampling returns an entirely black room, no matter what.
+					the first thing in our debugging process we did was check the Monte carlo estimator function, and each of its componenets. We realized that
+					the Li value from get_emission() was constantly returning 3D vector of only 0 values, which would explaint the lack of illuminance. We initially
+					believed that this error could be from a previous step, like in the ray intersection or BVH construction. This is because one of the groups we spoke to
+					didn't have a bounding box on the light on the ceiling. Unfortunately, making some changes with a TA didn't change this.
+				</h3>
 			<h2>Part 1: </h2>
 				<h3>Walk through the ray generation and primitive intersection parts of the rendering pipeline.</h3>
 					<p>
+						In order to generate the ray, the pipeline starts with the image coordinates (x, y) in Image Space. We created a 3x3 transform based on inverse mapping
+						a set of linear equations from points in the spec (creating matrices for mapping center (0.5,0.5)->(0,0), bottom corner (0,0)->(-tan(0.5*hFov, -tan(0.5*vFov))), etc.).
+						Then, we multipled the ray's x, y to camera space by matrix multiplying with the transform matrix. Finally, we multiply by c2w to change the direction vector to worldspace, and then normalize it.
+						Finally, we create a ray based on the camera pos and calculated direction vector, set the min_t and max_t to nClip and fClip, and then return that ray.
+
+						From there, we update the pixel in a SampleBuffer with the integral of radiance over the pixel. To make this integral estimation, we loop num_samples number of items,
+						generate a sample, create a newX and newY, which are the translated coordinates of the sample. Then, we sum a vector with all of these values passed into est_radiance_global_illumnation, and return the
+						average vector after updating the samplebuffer pixel.
 						image coords -> ray in world space (generate_ray) -> update pixel in SampleBuffer w/ integral of radiance over pixel
 					</p>
+					<p>
+						Sphere intersection:
+						The main functionality about ray-sphere intersection was based on the lecture slides 9-21. We are testing if a ray intersects a Sphere by
+						creating float values a, b, c, and temp, where temp = the quadratic formula equation. The first hypothetical ray sphere intersection is at 
+						-b + sqrt(...), and the second hypothetical intersection is at -b - sqrt(...); then we assign the inputted double pointers t1 and t2 to the corresponding
+						min(first, second) and max(first, second) respectively, and return true. 
+						If the value b^2 - 4ac < 0, then we know that there is no intersection between the ray and sphere, so we return false.
+						If there is an intersection, then we set the Intersection *i data: n (normal) with equation ray's origin + t*ray's direction - center of sphere location (the normalized vector pointing
+						from the sphere center to the intersection point) primitive, bsdf, and t. 
+					</p>
 				<h3>Explain the triangle intersection algorithm you implemented in your own words.</h3>
+					<p>
+						In order to do ray-triangle intersection, we used the Moller Trumbore algorithm to calculate E1, E2, S, S1, and S2, essentially the barycentric coordinates of the ray's intersection with the triangle. Based on these values, we output
+						the vector of params [t, b1, and b2]. Finally, we compare that ray's parameterization, t, ensuring many conditions, such as being >= 0, being between min_t and max_t. If these conditions hold, we know that the ray intersects with the triangle.
+						If there is an intersection, we now set the parameters of the ray and the intersection. For the ray, we update its max_t parameter to equal t (the nearest interesction), so that we can limit the space of future interesctions that we check. 
+						For the interesction, we update its t value, its normal as a weighted sum of the 3 vertice's normals, the primitive, and the bsdf.
+						Finally, we are able to render the CBempty.dae room, so that the walls and ceiling are existent.
+					</p>
 				<h3>Show images with normal shading for a few small .dae files.</h3>
+					<p>
+						CBspheres:
+						<img src="./CBspheres.png" alt="cbspheres" width="800" height="600">
+						<br>
+						Cube:
+						<img src="./cube.png" alt="cube" width="800" height="600">
+						<br>
+						plane:
+						<img src="./plane.png" alt="plane" width="800" height="600">
+					</p>
 			<h2> Part 2: </h2>
 				<h3>Walk through your BVH construction algorithm. Explain the heuristic you chose for picking the splitting point.</h3>
 					<p>
@@ -34,7 +77,28 @@
 					</p>
 				<h3>Show images with normal shading for a few large .dae files that you can only render with BVH acceleration.</h3>
 					<p>
-						
+						Cow:
+						<img src="./cow.png" alt="cow" width="800" height="600">
+						0.03 seconds
+						<br>
+						maxplanck:
+						<img src="./maxplanck.png" alt="maxplanck" width="800" height="600">
+						0.3 seconds
+						<br>
+						lucy:
+						<img src="./CBLucy.png" alt="lucy" width="800" height="600">
+						0.1 seconds
+					</p>
+				<h3>Compare rendering times on a few scenes with moderately complex geometries with and without BVH acceleration.</h3>
+					<p>
+						With BVH acceleration, it took <b>0.03 seconds for cow</b>, <b>0.3 seconds for maxplanck</b>, and <b>0.1 seconds for lucy</b>.
+						<br>
+						Without BVH acceleration, it took <b>5 seconds for cow</b>, <b>47 seconds for maxplanck</b>, and <b>232 seconds for lucy</b>. 
+						<br>
+						Clearly, there was a huge difference in the time it took to render with and without BVH acceleration; using BVH acceleration, the cow image rendered
+						~166 times faster, the maxplanck rendered ~16.6 times faster, and the lucy image rendered ~2320 times faster. Based on our results, this shows that
+						the BVH acceleration GREATLY helps speedup the rendering of images with many triangles-- for example, the lucy image has hundreds of thousands of triangles,
+						and the speedup gain from BVH acceleration is greatly bigger than the maxplanck image, which only has tens of thousands of triangles. 
 					</p>
 			<h2>Collaboration Report: </h2>
 	</body>

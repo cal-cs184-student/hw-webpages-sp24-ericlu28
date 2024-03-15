@@ -104,10 +104,59 @@
 				<h3>Walk through both implementations of the direct lighting function.</h3>
 					<p>
 						<b>Direct Lighting with Uniform Hemisphere Sampling</b>
+						The first direct lighting function we we implemented was done through uniformly sampling in a hemisphere, following
+						the Monte Carlo estimator.
+						To implement this, we sampled num_samples number of times: first getting the emission value of the surface material,
+						w_i, then getting the output of diffusing lambertian BSDF passing in w_i and w_out. Then, we create a new ray with
+						direction d = o2w*w_i. If this ray's direction intersects with the bvh of the light source, then we contribute its 
+						new Li value (new intersection's emission value), and fill in the other two constant values cos and pdf of the estimator.
+						Finally, we add this to our existing sum. If the ray doesn't intersect with the bvh of the light source, we continue.
+						Finally, we return the runing sum divided by the number of samples (average).
 						<br>
 						<b>Direct Lighting by Importance Sampling Lights</b>
+						The second direct lighting function we implemented was importance sampling, meant to sample all points directly, with 
+						the advantage that we can render images with only point lights. For each light source in a scene, we similarily
+						sample num_samples times: Similarily to hemisphere sampling, we create a new ray, and calculate the 
+						Li emission sample = light->sample_L and the output of f(w_out, w_i) for the Monte Carlo estimator. The difference is that
+						now, the ray's max_t parameter = the distance from the surface to the light - EPS_F and the ray's direction = w_i (we 
+						set these ray parameters). After creating and setting the new ray's parameters, the rest of the implementation is 
+						essentially the same as hemisphere sampling: check if the ray intersects with the light source BVH, and add to our 
+						running sum. And finally, divide by the number of samples to get the average. Now, the images rendered have less
+						noise, and the scenes are brighter from point lights.
 					</p>
 				<h3>Show some images rendered with both implementations of the direct lighting function.</h3>
+					<p>
+						<b>Uniform Hemisphere Sampling:</b>
+						<p>
+							DONE! CBunny Hemisphere sampling Low sample rate
+							<img src="./CBunny_H_16_8.png" alt="CBunny Hemisphere Low" width="480" height="360">
+							<br>
+							CBunny Hemisphere sampling High sample rate
+							<img src="./CBbunny_H_64_32.png" alt="CBunny Hemisphere High" width="480" height="360">
+							<br>
+							DONE! Dragon Hemisphere sampling high sample rate
+							<img src="./dragon_H_64_32.png" alt="Dragon Hemisphere High" width="480" height="480">
+							<br>
+							DONE! Coil Hemisphere sampling low sample rate
+							<img src="./CBCoil_H_16_8.png" alt="Coil Hemisphere Low" width="480" height="360">
+							<br>	
+							DONE! Gems Importance sampling low sample rate
+							<img src="./CBGems_H_16_8.png" alt="Gems Hemisphere Low" width="480" height="360">
+
+						</p>
+						<b>Importance sampling</b>
+						<p>
+							CBunny Importance sampling Low sample rate
+							<img src="./bunny_1_1.png" alt="CBunny Importance Low" width="480" height="360">
+							<br>
+							DONE! CBunny Importance sampling High sample rate
+							<img src="./bunny_64_32.png" alt="CBunny Importance High" width="480" height="360">	
+							<br>
+							DONE! Dragon Importance sampling high sample rate
+							<img src="./dragon_64_32.png" alt="Dragon Importance High" width="480" height="480">
+							<br>
+						</p>
+					</p>
 				<h3>Focus on one particular scene with at least one area light and compare the noise levels in soft shadows 
 					when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) 
 					using light sampling, not uniform hemisphere sampling.</h3>

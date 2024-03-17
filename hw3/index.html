@@ -128,16 +128,16 @@
 					<p>
 						<b>Uniform Hemisphere Sampling:</b>
 						<p>
-							DONE! CBunny Hemisphere sampling Low sample rate
-							<img src="./CBunny_H_16_8.png" alt="CBunny Hemisphere Low" width="480" height="360">
+							CBunny Hemisphere sampling Low sample rate
+							<img src="./CBbunny_H_16_8.png" alt="CBunny Hemisphere Low" width="480" height="360">
 							<br>
 							CBunny Hemisphere sampling High sample rate
 							<img src="./CBbunny_H_64_32.png" alt="CBunny Hemisphere High" width="480" height="360">
 							<br>
-							DONE! Dragon Hemisphere sampling high sample rate
+							Dragon Hemisphere sampling high sample rate
 							<img src="./dragon_H_64_32.png" alt="Dragon Hemisphere High" width="480" height="480">
 							<br>
-							DONE! Coil Hemisphere sampling low sample rate
+							Coil Hemisphere sampling low sample rate
 							<img src="./CBCoil_H_16_8.png" alt="Coil Hemisphere Low" width="480" height="360">
 							<br>	
 							DONE! Gems Importance sampling low sample rate
@@ -149,10 +149,10 @@
 							CBunny Importance sampling Low sample rate
 							<img src="./bunny_1_1.png" alt="CBunny Importance Low" width="480" height="360">
 							<br>
-							DONE! CBunny Importance sampling High sample rate
+							CBunny Importance sampling High sample rate
 							<img src="./bunny_64_32.png" alt="CBunny Importance High" width="480" height="360">	
 							<br>
-							DONE! Dragon Importance sampling high sample rate
+							Dragon Importance sampling high sample rate
 							<img src="./dragon_64_32.png" alt="Dragon Importance High" width="480" height="480">
 							<br>
 						</p>
@@ -161,12 +161,177 @@
 					when rendering with 1, 4, 16, and 64 light rays (the -l flag) and with 1 sample per pixel (the -s flag) 
 					using light sampling, not uniform hemisphere sampling.</h3>
 					<p>
-
+						1 light ray:
+						<img src="./CBbunny_1_lightrate.png" alt="1 light rate" width="480" height="360">
+						<br>
+						4 light rays:
+						<img src="./CBbunny_4_lightrate.png" alt="4 light rate" width="480" height="360">	
+						<br>
+						16 light ray:
+						<img src="./CBbunny_16_lightrate.png" alt="16 light rate" width="480" height="360">
+						<br>
+						64 light rays:
+						<img src="./CBbunny_64_lightrate.png" alt="64 light rate" width="480" height="360">	
+						<br>
+						<br>
+						There is much less noise in soft shadows as we increase the amount of light rays used. In low light ray renderings, like with 1 or 4 light rays, there are fewer samples taken 	to determine the lighting.
+						Thus, there is obvious gradients of black shadow of light. As we increase the light rays used, like 16 or 64, we can see smoother transitions of indirect lighting effects, leading to accurate shadows.
 					</p>
 				<h3>Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.</h3>
+					<p>
+
+					</p>
 			<h2> Part 4: </h2>
 				<h3>Walk through your implementation of the indirect lighting function.</h3>
+					<p>
+						For the indirect lighting function, the overall functionality is similar to direct light sampling, we just also recurse to reach more bounce cases. We are using the ray depth (r.depth) as the recursive condition,
+						and the base case is when ray depth is 0, and we decrement ray depth in each recursive call. There's also a separate condition where if isAccumBounces is true/false, and if it's false, we check if ray depth <= maxRayDepth.
+						In the recursive case, we generate a new ray based on a point on the mesh, and sample outgoing rays, getting the lighting from rays that intersect, and dimming them based on distance. We sum each lighting output from 
+						each recursive bounce, and return the sum in the end.
+					</p>
 				<h3>Show some images rendered with global (direct and indirect) illumination. Use 1024 samples per pixel.</h3>
+					<p>
+						Bench direct illumination (1 bounce):
+						<img src="./bench.dae1_bounce.png" alt="Bench 1 bounce" width="480" height="360">
+						<br>
+						Bench indirect illumination (3 bounce):
+						<img src="./bench.dae3_bounce.png" alt="Bench 1 bounce" width="480" height="360">
+						<br>
+						Bench indirect illumination (5 bounce):
+						<img src="./bench.dae5_bounce.png" alt="Bench 1 bounce" width="480" height="360">
+						<br>
+						EMpty direct illumination (1 bounce):
+						<img src="./CBempty.dae1_bounce.png" alt="Empty 1 bounce" width="480" height="360">
+						<br>
+						Empty indirect illumination (3 bounce):
+						<img src="./CBempty.dae3_bounce.png" alt="Empty 3 bounce" width="480" height="360">
+						<br>
+						Empty indirect illumination (5 bounce):
+						<img src="./CBempty.dae5_bounce.png" alt="Empty 5 bounce" width="480" height="360">
+						<br>	
+						CBSphere direct illumination (1 bounce):
+						<img src="./CBspheres_lambertian.dae1_bounce.png" alt="Spheres 1 bounce" width="480" height="360">
+						<br>
+						CBSpheres indirect illumination (3 bounce):
+						<img src="./CBspheres_lambertian.dae3_bounce.png" alt="Spheres 3 bounce" width="480" height="360">
+						<br>
+						CBSpheres indirect illumination (5 bounce):
+						<img src="./CBspheres_lambertian.dae5_bounce.png" alt="Spheres 5 bounce" width="480" height="360">
+					</p>
+				<h3>Pick one scene and compare rendered views first with only direct illumination, then only indirect illumination. Use 1024 samples per pixel.</h3>
+					<p>
+						We will compare the scene of direct illumination vs. indirect illumination for CBsphere, using 1024 samples per pixel.
+						<br>
+						CBSphere direct illumination (1 bounce):
+						<img src="./CBspheres_lambertian.dae1_bounce.png" alt="Spheres 1 bounce" width="480" height="360">
+						<br>
+						CBSpheres indirect illumination (5 bounce):
+						<img src="./CBspheres_lambertian.dae5_bounce.png" alt="Spheres 5 bounce" width="480" height="360">
+						<br>
+						Two of the main differences between direct illumination and indirect illumination is that direct illumination has much sharper lighting contrasts and patterns, while indirect illumination has smoother lighting 
+						gradients. We can see in the direct illumination, there's almost 3 light bands on the left sphere (white, grey, black), indicating the sharpness of lighting contrast, whereas the indirect illumination (3 bounces)
+						doesn't have apparent differences next to one another. Second, indirect illumination adds better light ambiance with the environment, which can be seen where the walls and floor background around the spheres
+						also aren't as sharply contrasted with the spheres because of the bounces.
+					</p>
+				<h3>For CBbunny.dae, render the mth bounce of light with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag), and isAccumBounces=false. 
+					Explain in your writeup what you see for the 2nd and 3rd bounce of light, and how it contributes to the quality of the rendered image compared to rasterization. Use 1024 samples per pixel.</h3>
+					<p>
+						0th bounce of light
+						<img src="./bunny_0_bounce.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						1th bounce of light
+						<img src="./bunny_1_bounce.png" alt="bunny 1 bounce" width="480" height="360">
+						<br>
+						2th bounce of light
+						<img src="./bunny_2_bounce.png" alt="Bench 2 bounce" width="480" height="360">
+						<br>
+						3th bounce of light
+						<img src="./bunny_3_bounce.png" alt="Bench 3 bounce" width="480" height="360">
+						<br>
+						4th bounce of light
+						<img src="./bunny_4_bounce.png" alt="Bench 4 bounce" width="480" height="360">
+						<br>
+						5th bounce of light
+						<img src="./bunny_5_bounce.png" alt="Bench 5 bounce" width="480" height="360">
+						<br>
+					</p>
+					<p>
+						For the 2nd and 3rd bounces of light, it looks like there is light coming from underneath the bunny, and that the bunny's body is glowing, ilke adding color bleeding to the scene. This is because
+						the bunny is reflecting some light off of the wall, and the wall is reflecting some light/color off of the bunny, which adds better color complexity, and decreases noise as compared to rasterization.
+					</p>
+				<h3>For CBbunny.dae, compare rendered views with max_ray_depth set to 0, 1, 2, 3, 4, and 5 (the -m flag). Use 1024 samples per pixel.				</h3>
+					<p>
+						0 max ray depth
+						<img src="./bunny_render_0.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						1 max ray depth
+						<img src="./bunny_render_1.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						2 max ray depth
+						<img src="./bunny_render_2.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						3 max ray depth
+						<img src="./bunny_render_3.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						4 max ray depth
+						<img src="./bunny_render_4.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						5 max ray depth
+						<img src="./bunny_render_5.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+					</p>
+					<p>
+						As we increase the max ray depth, the scene is getting brighter (<b>MORE global illumination</p>). This makes sense because the ray depth is increasing, so light is bouncing off of surfaces more times with higher ray depth.
+					</p>
+				<h3>For CBbunny.dae, output the Russian Roulette rendering with max_ray_depth set to 0, 1, 2, 3, 4, and 100</h3>
+					<p>
+						Russian Roulette 0 max ray depth
+						<img src="./bunny_rr_0.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Russian Roulette 1 max ray depth
+						<img src="./bunny_rr_1.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Russian Roulette 2 max ray depth
+						<img src="./bunny_rr_2.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Russian Roulette 3 max ray depth
+						<img src="./bunny_rr_3.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Russian Roulette 4 max ray depth
+						<img src="./bunny_rr_4.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Russian Roulette 100 max ray depth
+						<img src="./bunny_rr_100.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+					</p>
+				<h3>Pick one scene and compare rendered views with various sample-per-pixel rates, including at least 1, 2, 4, 8, 16, 64, and 1024. Use 4 light rays.</h3>
+					<p>
+						Spheres 0 sample-per-pixel
+						<img src="./spheres_0.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 1 sample-per-pixel
+						<img src="./spheres_1.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 2 sample-per-pixel
+						<img src="./spheres_2.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 4 sample-per-pixel
+						<img src="./spheres_4.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 8 sample-per-pixel
+						<img src="./spheres_8.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 16 sample-per-pixel
+						<img src="./spheres_16.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 64 sample-per-pixel
+						<img src="./spheres_64.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+						Spheres 1024 sample-per-pixel
+						<img src="./spheres_1024.png" alt="bunny 0 bounce" width="480" height="360">
+						<br>
+					</p>
+
 			<h2>Collaboration Report: </h2>
 	</body>
 </html>

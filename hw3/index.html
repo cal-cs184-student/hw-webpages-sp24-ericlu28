@@ -6,14 +6,47 @@
 		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw3/index.html">Webpage Link</a>
 		<h1>Homework 3 Writeup</h1>
 			<h2>Project Overview: </h2>
-				<h3>approach and implementation for each of the parts, as well as problems encountered and how to solve</h3>
-				<h3>Part 1: doing matrix multiplication and linear algebra to reverse engineer the transform matrix</h3>
-				<h3>Part 2: Segfaulting initially</h3>
-				<h3>Part 3, task 3: Running into issues where the direct lighting with uniform hemisphere sampling returns an entirely black room, no matter what.
+				Overall, this project was quite difficult, and required going through many previous discussions, lectures slides, and office hours for debugging help. However, it was quite rewarding seeing how all of the different
+				ray generation, BVH/bounding box, and illumination techniques influenced lighting and coloring of an image in different ways.
+				<h4>Part 1: Ray generation and scene intersection</h4>
+					<p>
+						Part 1 was relatively straightforward, as we were just following the equations given in the first 2 tasks. We wrote out all of the matrix muliplicationa dn linear algebra on paper in order to 
+						reverse engineer the transform matrix for camera space to world space using the given coordinate points (more details in the part 1 writeup). We played around with the constants in order to debug, until
+						our output image matched the staf solution. In our opinions, ray-triangle intersection was the most difficult to implement.
+					</p>
+				<h4>Part 2: BVH Stuff</h4>
+					<p>
+						In this part we were tasked with creating the BVH and intersecting it. The BVH construction algorithm is clearly explained in Part 2's more in-depth writeup. I will go more in-depth into the 
+						BVH intersection. In order to check the intersection of a ray with the BVH, we used the built-in has_intersection function of the primitive class. For the intersect, if the ray misses the node's bounding box,
+						we return. Otherwise, we know it intersects, and we check if the node is a leaf. If so, we intersect the primitive with the ray. Otherwise, we recurse on the node's left and right children until we reach a leaf node.
+						Overall, these functions were relatively simple to implement. However, we ran into segfaulting initially, which we believe was due to accessing a member's field of the primitive that we weren't supposed to.
+						Now, we were able to render images in fractions of time compared to previous.
+					</p>
+				<h4>Part 3: Direct Illumination</h4>
+					<p>
+						This task directly helped us render images with better shadows, and greatly reduce noise of pixels in the image.
+						The direct lighting function implemnentation walkthrough is listed in the writeup for that part in more depth. We will walk thrgouh some issues we faced with Task 3, uniform hemisphere sampling. We initially ran into issues 
+						where the direct lighting with uniform hemisphere sampling returns an entirely black room, no matter what.
 					the first thing in our debugging process we did was check the Monte carlo estimator function, and each of its componenets. We realized that
 					the Li value from get_emission() was constantly returning 3D vector of only 0 values, which would explaint the lack of illuminance. We initially
 					believed that this error could be from a previous step, like in the ray intersection or BVH construction. This is because one of the groups we spoke to
-					didn't have a bounding box on the light on the ceiling. Unfortunately, making some changes with a TA didn't change this.
+					didn't have a bounding box on the light on the ceiling. Unfortunately, making some changes with a TA didn't change this. In the end, we were not correctly doing something in task 2.1 with the intersect checking of a ray,
+					leading to the program believing that none of the rays were intersecting with the bounding box, so the image would render nothing with light. After this was fixed, we were able to move onto importance sampling, which was
+					relatively simple and similar to the previous implementation of hemisphere sampling, just changing a few parameters with the new rays we were creating.
+				<h4>Part 4: Global Illumination</h4>
+					<p>
+						This task helped us better spread out light equally around an image, rather than have it all focused in a few main locations. The main implemntation was done in at_least_one_bounce and russian roulette.
+						In these tasks, we finished est_radiance_global_illumnation in order to estimate the global illumination arriving at a point from a specific direction, considering multiple bounces of light, which we achieved by
+						recursively calling at_least_one_bounce, which traced rays in sampled directions based on the BSDF at the hit point and computed radiance contributions. The logic of termination and further recursion is mentioned
+						in more depth below.
+						In the task after, we implemented Russian ROulette in order to randomly terminate rays. This technique helped us unbiasedly improve effieincy of the program, while maintaining accuracy in estimating radiance.
+						The russian roulette algorithm involved a coin flip function in order to randomly decide whether to continue recursing forward, or terminate.
+					</p>
+				<h4>Part 5: Adaptive Sampling</h4>
+					<p>
+						The adaptive sampling algorithm we implemented is explained in-depth for part 5.
+					</p>
+				Overall, we spent lots of time on this project, and Joel did a great job with most of the implementation.
 				</h3>
 			<h2>Part 1: </h2>
 				<h3>Walk through the ray generation and primitive intersection parts of the rendering pipeline.</h3>

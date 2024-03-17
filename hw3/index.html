@@ -131,9 +131,6 @@
 							CBunny Hemisphere sampling Low sample rate
 							<img src="./CBbunny_H_16_8.png" alt="CBunny Hemisphere Low" width="480" height="360">
 							<br>
-							CBunny Hemisphere sampling High sample rate
-							<img src="./CBbunny_H_64_32.png" alt="CBunny Hemisphere High" width="480" height="360">
-							<br>
 							Dragon Hemisphere sampling high sample rate
 							<img src="./dragon_H_64_32.png" alt="Dragon Hemisphere High" width="480" height="480">
 							<br>
@@ -179,7 +176,9 @@
 					</p>
 				<h3>Compare the results between uniform hemisphere sampling and lighting sampling in a one-paragraph analysis.</h3>
 					<p>
-
+						There is typically more noise in uniform hemisphere sampling than lighting sampling. While both images are noisy, this difference can be apparently seen in CBunny Importance sampling Low sample rate vs. CBunny
+						Hemisphere sampling low sample rate. The hemisphere sampling bunny has way more black pixels spotted around the background of the image. On the other hand, lighting sampling prioritizes biasing significant light sources,
+						which is interesting because the light source is completely blacked out.
 					</p>
 			<h2> Part 4: </h2>
 				<h3>Walk through your implementation of the indirect lighting function.</h3>
@@ -331,7 +330,25 @@
 						<img src="./spheres_1024.png" alt="bunny 0 bounce" width="480" height="360">
 						<br>
 					</p>
-
+			<h2> Part 5: </h2>
+				<h3>Explain adaptive sampling. Walk through your implementation of the adaptive sampling.</h3>
+					<p>
+						Adaptive sampling is a method used to concentrate samples in harder to render parts of the image, saving computation (high samples) on easier parts of the image to render.
+						Thus, it reduces overall render times by concentrating computate efforts where it's most needed, while still maintaining image quality. In order to implement adaptive sampling.
+						<h1>TODO</h1>
+					</p>
+				<h3>Pick two scenes and render them with at least 2048 samples per pixel. Show a good sampling rate image with clearly visible differences in sampling rate over various regions and pixels. 
+					Include both your sample rate image, which shows your how your adaptive sampling changes depending on which part of the image you are rendering, and your noise-free rendered result. 
+					Use 1 sample per light and at least 5 for max ray depth.</h3>
+					<p>
+						<h1>TODO</h1>
+					</p>
 			<h2>Collaboration Report: </h2>
+				<p>
+					Overall, it was an enjoyable experience collaborating. Joel and Eric met both in-person and over Zoom multiple times through the homework work cycle to discuss conceptual concepts, pair program, and debug.
+					We both utilized Office hours in Soda as well to get questions answered. Joel carried much of the coding sections, as he had a stronger conceptual understanding of the material, while Eric helped in pieces
+					setting up skeleton code based on the spec and debugging. Eric did the majority of the writeup, with the help of Joel to render some of the images. We learned that starting early is very important, and having
+					a plan and understanding the material before coding can save hours of debugging!
+				</p>
 	</body>
 </html>

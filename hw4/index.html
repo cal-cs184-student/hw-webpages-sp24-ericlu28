@@ -6,7 +6,29 @@
 		<a href="https://cal-cs184-student.github.io/hw-webpages-sp24-ericlu28/hw4/index.html">Webpage Link</a>
 		<h1>Homework 4 Writeup</h1>
 			<h2>Project Overview: </h2>
-				...
+				<p>
+					Overall, this was one of our favorite projects to complete. Being able to see the effects of all of the different
+					textures and lighting/shading/mapping on the cloth objects, as well as seeing the cloth fall on the floor almost like
+					a physics experiment was very cool to visualize and debug! We even came across some fun bug art, such as the cloth turning
+					into looking like a wild animal flying around the screen (we shared to the Bug Art Ed). In terms of difficulty, this project
+					was less difficult than Project 3, but slightly harder than Project 1's building. Also, the timing with spring break wasn't
+					ideal for us, as we both took the time completely off from school, and didn't start particularly early. 
+					<br>
+					In terms of the workflow and debugging process, each part presented a different challenges.
+					In part 1, it was pretty simple setting up the masses in a double for loop, and the only hurdle we overcame was conceptually
+					understanding the row-major vs. column major differences (i vs. j). The springs setup was also not super difficult, just 
+					many conditional cases to correctly place the springs in each correct location. In part 2, 	Joel handled all of the 
+					problem solving and programming, and the process went mostly smoothly following formulas listed on lecture slides.
+					In part 3, implementing sphere collide and plane collide was also pretty smooth. The learning curve with colliding with 
+					the sphere was a bit tough at first, but once the sphere collision was implemented correctly, the plane collision was 
+					simple to fill-in-the-blanks. In part 4, Eric handled the hash_position, which was simply applying the spec directions
+					to put a vertex into a box location; initially, the hash function I created used a composite number, but was directed
+					to use a prime number instead. Afterwards, building the spatial map was also not super problematic, it just 
+					involved looking up a C++ function to check if the map has an existing key with map.count(). In part 5, Joel handled
+					diffuse shading, texture mapping, and bump mapping, and then Eric mostly handled displacement
+					mapping and blinn-phong shading. Overall, it was a good collaboration process, and we appreciate all of the help
+					from the staff in office hours.
+				</p>
 			<h2>Part 1: </h2>
 				<h3>Take some screenshots of scene/pinned2.json from a viewing angle where you can clearly see the cloth 
 					wireframe to show the structure of your point masses and springs.</h3>
@@ -280,11 +302,28 @@
 						<img src="./p5-bump-1.png" alt="cbspheres" width="400" height="300">
 					</p>
 					<p>
-						<b>Displacement mapping on the sphere</b>
-
+						<b>Displacement mapping on the cloth</b>
+						<img src="./p5-displacement-cloth.png" alt="cbspheres" width="400" height="300">
 					</p>
-					
-
+					<p>
+						<b>Displacement mapping on the sphere</b>
+						<img src="./p5-displacement-sphere.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+					The bump mapping approach simulates surface with shading, while displacement mapping physically modifies
+					the geometry of the object based on texture information. While displacement mapping is supposed to produce
+					more realistic texture looks, it can take longer to render than bump mapping. 
+					In the resulting renders, the bump mapping looks just like the cloth was painted with the new texture on top
+					as a "skin". On the other hand, the displacement mapping cloth actually has outward grooves and looks 
+					rougher, showing how the geometry has actually been altered in the cloth.
+					</p>
+					<p>
+						The two shaders react to the sphere differently when changing the vertical and horizontal resolution.
+						For the bump shading, the differences in using parameters -o 16 -a 16 and -o 128 -a 128 are very minimal.
+						There is very slight differences in reflection brightness and shading in a few areas that I am barely picking up.
+						However, for displacement mapping, the differences are much more drastic. The sphere mesh's coarseness with
+						-o 16 -a 16 is less than with 128 res, so the surface has less drastic lighting and roughness showing.
+					</p>
 				<h3>Show a screenshot of your mirror shader on the cloth and on the sphere.</h3>
 					<p>
 						<b>Mirror shader:</b>

@@ -166,6 +166,8 @@
 					</p>
 					<p>
 						<b>Low density (larger and less folds, more unraveling):</b>
+					</p>
+					<p>
 						<img src="./p4-high-density1.png" alt="cbspheres" width="400" height="300">
 						<img src="./p4-high-density2.png" alt="cbspheres" width="400" height="300">
 						<img src="./p4-high-density3.png" alt="cbspheres" width="400" height="300">
@@ -173,27 +175,125 @@
 					</p>
 					<p>
 						<b>High density (smaller and more folds, less unraveling):</b>
+					</p>
+					<p>
 						<img src="./p4-low-density1.png" alt="cbspheres" width="400" height="300">
 						<img src="./p4-low-density2.png" alt="cbspheres" width="400" height="300">
 						<img src="./p4-low-density3.png" alt="cbspheres" width="400" height="300">
 					</p>
 					<p>
-						
+						Varying the ks changes the size of the flaps (circumference of the circle one way to measure)
+						are in the folded cloth on the ground. For lower ks values, there is much thinner flaps with more
+						length. For higher ks values, there are much thicker, and less folds in the cloth as it compresses
+						from falling onto the ground and rolling. 
+					</p>
+					<p>
+						<b>Low ks (thinner and more folds, more interweaving of the folds)</b>
+					</p>
+					<p>
+						<img src="./p4-low-ks1.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-low-ks2.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-low-ks3.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-low-ks4.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>High ks (thick and very few folds)</b>
+					</p>
+					<p>
+						<img src="./p4-high-ks1.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-high-ks2.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-high-ks3.png" alt="cbspheres" width="400" height="300">
+						<img src="./p4-high-ks4.png" alt="cbspheres" width="400" height="300">
 					</p>
 			<h2> Part 5: </h2>
 				<h3>Explain in your own words what is a shader program and how vertex and fragment shaders work together 
 					to create lighting and material effects.</h3>
+					<p>
+						Shader programs are programs that run separate but alongside the GPU, carrying out tasks in rendering like
+						calculating light, darkness, and color during rendering a 3D scene. Shader programs are often used for customizing
+						effects using algorithms that are able to be modified by external textures introduced by the program.
+						<br>
+						Vertex shaders are shaders run for each vertex in the graphics pipeline, and they are meant to translate the
+						3D position of each vertex into the 2D coordinate that we see on the computer screen. Fragment shaders execute
+						after vertex shaders to compute color of each pixel fragment, along with bump mapping, shaddows, translucency, and other
+						render types. Together, vertex shaders and fragment shaders collaborate to contribute to lighting and 
+						material effects. For lighting, the vertex shader transforms vertex normals into eye space and computes light
+						intensity; the fragment shader takes these interpolated values and calculates final lighting contribution for
+						each pixel. For material effects, vertex shaders define material properties per vertex or per fragment, and
+						interpolated across the surface; in the fragment shader, these material properties are combined with
+						lighting calculations to determine the final appearance for eah pixel.
+					</p>
 				<h3>Explain the Blinn-Phong shading model in your own words. Show a screenshot of your Blinn-Phong shader 
 					outputting only the ambient component, a screen shot only outputting the diffuse component, 
 					a screen shot only outputting the specular component, and one using the entire Blinn-Phong model.</h3>
+					<p>
+						The Blinn-Phone shading model is a shading model carried out on each vertex meant to simulate
+						how light interacts with surfaces in computer graphics. In the Blinn-Phong shading model, there's three terms:
+						ambient, diffuse, and spectaluar. In the ambient term, which is the product of ambient light color 
+						and ambient reflectance coeffficient. This value provides the baseline illumination to objects in the scene.
+						The diffuse term accounts for light scattered equally when it hits a surface, and its commonly calculated
+						through the Lambertian diffuse reflection model. Finally, the specular term accounts for the "shiny" reflection
+						look, where the intensity of the shininess depends on the angle between the normalized vector between light direction
+						and view direction, and the surface normal. This value controls the size and brightness of the specular highlights.
+					</p>
+					<p>
+						<b>Ambient component:</b>
+					</p>
+					<p>
+						<img src="./p5-blinn-a.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>Diffuse component: </b>
+					</p>
+					<p>
+						<img src="./p5-blinn-d.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>Specular component: </b>
+					</p>
+					<p>
+						<img src="./p5-blinn-s.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>Entire Blinn-Phong Model</b>
+					</p>
+					<p>
+						<img src="./p5-blinn.png" alt="cbspheres" width="400" height="300">
+					</p>
 				<h3>Show a screenshot of your texture mapping shader using your own custom texture by modifying the textures in 
 					/textures/.</h3>
+					<p>
+						<img src="./p5-texture-1.png" alt="cbspheres" width="400" height="300">
+						<img src="./p5-texture-2.png" alt="cbspheres" width="400" height="300">
+					</p>
 				<h3>Show a screenshot of bump mapping on the cloth and on the sphere. Show a screenshot of displacement mapping 
 					on the sphere. Use the same texture for both renders. You can either provide your own texture or use one of 
 					the ones in the textures directory, BUT choose one that's not the default texture_2.png. 
 					Compare the two approaches and resulting renders in your own words. Compare how your the two shaders 
 					react to the sphere by changing the sphere mesh's coarseness by using -o 16 -a 16 and then -o 128 -a 128.</h3>
+					<p>
+						<b>Bump mapping on the cloth</b>
+						<img src="./p5-bump-2.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>Bump mapping on the sphere</b>
+						<img src="./p5-bump-1.png" alt="cbspheres" width="400" height="300">
+					</p>
+					<p>
+						<b>Displacement mapping on the sphere</b>
+
+					</p>
+					
+
 				<h3>Show a screenshot of your mirror shader on the cloth and on the sphere.</h3>
+					<p>
+						<b>Mirror shader:</b>
+						<img src="./p5-mirror-1.png" alt="cbspheres" width="400" height="300">
+						<img src="./p5-mirror-2.png" alt="cbspheres" width="400" height="300">
+					</p>
 				<h3>Explain what you did in your custom shader, if you made one.</h3>
+					<p>
+
+					</p>
 	</body>
 </html>
